@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 할 일</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <!-- 1. 헤더 -->
+    <header class="header">
+      <h1>오늘의 할 일</h1>
+      <p class="today" id="today"></p>
+    </header>
+
+    <!-- 2. 진행률 영역 -->
+    <section class="progress" aria-label="진행률">
+      <div class="progress-total">
+        <div class="progress-head">
+          <span class="progress-label">전체 진행률</span>
+          <span class="progress-value" id="total-text">0/0 · 0%</span>
+        </div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="total-bar">
+          <div class="bar-fill" id="total-fill"></div>
+        </div>
+      </div>
+      <ul class="progress-cats" id="cat-progress"></ul>
+    </section>
+
+    <!-- 3. 입력 영역 -->
+    <form class="add-form" id="add-form" autocomplete="off">
+      <label class="sr-only" for="new-text">할 일 내용</label>
+      <input type="text" id="new-text" placeholder="할 일을 입력하고 Enter" maxlength="100" autofocus>
+      <label class="sr-only" for="new-category">카테고리</label>
+      <select id="new-category">
+        <option value="work">업무</option>
+        <option value="personal">개인</option>
+        <option value="study">공부</option>
+      </select>
+      <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+    <p class="form-error" id="form-error" role="alert" hidden></p>
+
+    <!-- 4. 목록 영역 -->
+    <section class="list-section" aria-label="할 일 목록">
+      <div class="filters" role="tablist" id="filters">
+        <button type="button" role="tab" class="filter is-active" data-filter="all" aria-selected="true">전체</button>
+        <button type="button" role="tab" class="filter" data-filter="work" aria-selected="false">업무</button>
+        <button type="button" role="tab" class="filter" data-filter="personal" aria-selected="false">개인</button>
+        <button type="button" role="tab" class="filter" data-filter="study" aria-selected="false">공부</button>
+      </div>
+
+      <ul class="todo-list" id="todo-list"></ul>
+      <p class="empty" id="empty" hidden></p>
+
+      <div class="list-footer">
+        <button type="button" class="btn btn-ghost" id="clear-done">완료 항목 삭제</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
