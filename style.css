@@ -39,6 +39,7 @@ body {
   margin: 0 auto;
   padding: 32px 16px 64px;
 }
+.sidebar, .content { min-width: 0; }
 
 /* ===== 1. 헤더 ===== */
 .header { margin-bottom: 20px; }
@@ -219,4 +220,40 @@ body {
   .cat-item .cat-head { flex-direction: column; gap: 0; }
   .edit-row { flex-wrap: wrap; }
   .edit-row input { flex-basis: 100%; }
+}
+
+/* ===== 태블릿 (600px 이상): 본문을 넓게 ===== */
+@media (min-width: 600px) {
+  .app { max-width: 760px; padding: 40px 24px 72px; }
+  .header h1 { font-size: 30px; }
+}
+
+/* ===== 데스크톱 (960px 이상): 2단 레이아웃 ===== */
+@media (min-width: 960px) {
+  .app {
+    max-width: 1160px;
+    padding: 48px 32px 80px;
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  /* 스크롤해도 진행률 패널이 따라옴 */
+  .sidebar { position: sticky; top: 32px; }
+  .header { margin-bottom: 24px; }
+  .progress { margin-bottom: 0; padding: 20px; }
+  /* 좁은 사이드바에서는 카테고리 진행률을 세로로 쌓음 */
+  .progress-cats { grid-template-columns: 1fr; gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .cat-item .cat-head { font-size: 14px; }
+  .cat-item .bar { height: 8px; }
+  .list-section { margin-top: 24px; }
+  .todo { padding: 12px 16px; }
+}
+
+/* ===== 큰 화면 (1400px 이상): 할 일을 2열로 ===== */
+@media (min-width: 1400px) {
+  .app { max-width: 1360px; grid-template-columns: 320px minmax(0, 1fr); gap: 48px; }
+  .todo-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .todo { margin-bottom: 0; }
+  .list-footer { margin-top: 12px; }
 }

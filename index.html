@@ -8,6 +8,8 @@
 </head>
 <body>
   <main class="app">
+    <!-- 왼쪽(넓은 화면) / 위쪽(좁은 화면): 헤더 + 진행률 -->
+    <aside class="sidebar">
     <!-- 1. 헤더 -->
     <header class="header">
       <h1>오늘의 할 일</h1>
@@ -27,6 +29,10 @@
       </div>
       <ul class="progress-cats" id="cat-progress"></ul>
     </section>
+    </aside>
+
+    <!-- 오른쪽(넓은 화면) / 아래쪽(좁은 화면): 입력 + 목록 -->
+    <div class="content">
 
     <!-- 3. 입력 영역 -->
     <form class="add-form" id="add-form" autocomplete="off">
@@ -58,6 +64,7 @@
         <button type="button" class="btn btn-ghost" id="clear-done">완료 항목 삭제</button>
       </div>
     </section>
+    </div>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
