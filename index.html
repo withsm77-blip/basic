@@ -14,6 +14,11 @@
     <header class="header">
       <h1>오늘의 할 일</h1>
       <p class="today" id="today"></p>
+      <div class="layout-toggle" role="radiogroup" aria-label="레이아웃" id="layout-toggle">
+        <button type="button" role="radio" data-layout="auto" aria-checked="true" title="화면 폭에 맞춰 자동으로">자동</button>
+        <button type="button" role="radio" data-layout="single" aria-checked="false" title="항상 한 줄로">1단</button>
+        <button type="button" role="radio" data-layout="split" aria-checked="false" title="진행률 패널을 왼쪽에">2단</button>
+      </div>
     </header>
 
     <!-- 2. 진행률 영역 -->

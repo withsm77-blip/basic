@@ -7,6 +7,8 @@
  * ========================================================= */
 
 const STORAGE_KEY = 'todos';
+const LAYOUT_KEY = 'layout';
+const LAYOUTS = ['auto', 'single', 'split'];
 const MAX_LENGTH = 100;
 
 const CATEGORIES = {
@@ -37,6 +39,8 @@ const els = {
   empty: $('empty'),
   clearDone: $('clear-done'),
   toast: $('toast'),
+  app: document.querySelector('.app'),
+  layoutToggle: $('layout-toggle'),
 };
 
 /* ===================== 저장 / 복원 ===================== */
@@ -450,6 +454,59 @@ window.addEventListener('storage', (e) => {
   render();
 });
 
+/* ===================== 레이아웃 토글 ===================== */
+// auto: 960px 이상이면 2단 / split: 720px 이상이면 2단 / single: 항상 1단
+const mqAuto = window.matchMedia('(min-width: 960px)');
+const mqSplit = window.matchMedia('(min-width: 720px)');
+let layout = loadLayout();
+
+function loadLayout() {
+  try {
+    const saved = localStorage.getItem(LAYOUT_KEY);
+    return LAYOUTS.includes(saved) ? saved : 'auto';
+  } catch {
+    return 'auto';
+  }
+}
+
+function applyLayout() {
+  const split =
+    (layout === 'auto' && mqAuto.matches) || (layout === 'split' && mqSplit.matches);
+  els.app.classList.toggle('is-split', split);
+  els.layoutToggle.querySelectorAll('button').forEach((btn) => {
+    btn.setAttribute('aria-checked', String(btn.dataset.layout === layout));
+  });
+}
+
+function setLayout(next) {
+  layout = next;
+  try {
+    localStorage.setItem(LAYOUT_KEY, layout);
+  } catch {
+    /* 저장 실패해도 화면 전환은 동작 */
+  }
+  applyLayout();
+}
+
+els.layoutToggle.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-layout]');
+  if (btn) setLayout(btn.dataset.layout);
+});
+
+// 방향키로도 선택 가능 (radiogroup 표준 동작)
+els.layoutToggle.addEventListener('keydown', (e) => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+  e.preventDefault();
+  const step = e.key === 'ArrowRight' ? 1 : -1;
+  const next = LAYOUTS[(LAYOUTS.indexOf(layout) + step + LAYOUTS.length) % LAYOUTS.length];
+  setLayout(next);
+  els.layoutToggle.querySelector(`[data-layout="${next}"]`).focus();
+});
+
+// 화면 폭이 바뀌면 다시 계산
+mqAuto.addEventListener('change', applyLayout);
+mqSplit.addEventListener('change', applyLayout);
+
 /* ===================== 시작 ===================== */
 
 els.today.textContent = new Date().toLocaleDateString('ko-KR', {
@@ -459,4 +516,5 @@ els.today.textContent = new Date().toLocaleDateString('ko-KR', {
   weekday: 'long',
 });
 
+applyLayout();
 render();
